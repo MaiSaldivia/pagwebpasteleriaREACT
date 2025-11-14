@@ -1,0 +1,118 @@
+import { Fragment, useMemo, useState } from "react";
+import { useAppContext } from "../../context/AppContext";
+import { formatMoney } from "../../utils/format";
+
+const ESTADOS = ["Pendiente", "Preparando", "Despachado", "Entregado"];
+
+export function AdminPedidosPage() {
+  const { orders, updateOrders } = useAppContext();
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const resumen = useMemo(() => {
+    const total = orders.length;
+    const porEstado = ESTADOS.reduce<Record<string, number>>((acc, estado) => {
+      acc[estado] = orders.filter((order) => order.estado === estado).length;
+      return acc;
+    }, {});
+    return { total, porEstado };
+  }, [orders]);
+
+  const toggleDetalle = (id: string) => {
+    setSelected((prev) => (prev === id ? null : id));
+  };
+
+  const cambiarEstado = (id: string, estado: string) => {
+    updateOrders(
+      orders.map((order) => (order.id === id ? { ...order, estado } : order))
+    );
+  };
+
+  return (
+    <section>
+      <div className="admin-widgets" style={{ marginBottom: "24px" }}>
+        <article className="widget">
+          <h3>Resumen de pedidos</h3>
+          <p>Total históricos: <strong>{resumen.total}</strong></p>
+          <ul className="muted" style={{ listStyle: "disc", paddingLeft: "20px" }}>
+            {ESTADOS.map((estado) => (
+              <li key={estado}>
+                {estado}: {resumen.porEstado[estado] || 0}
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+
+      <div className="admin-table-wrap">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <Fragment key={order.id}>
+                <tr>
+                  <td>{order.id}</td>
+                  <td>{order.cliente}</td>
+                  <td>{formatMoney(order.total)}</td>
+                  <td>{order.estado}</td>
+                  <td>
+                    <div className="table-actions">
+                      <button
+                        className="btn-edit"
+                        type="button"
+                        onClick={() => toggleDetalle(order.id)}
+                      >
+                        {selected === order.id ? "Ocultar" : "Detalle"}
+                      </button>
+                      <select
+                        value={order.estado}
+                        onChange={(event) => cambiarEstado(order.id, event.target.value)}
+                        style={{ padding: "6px 8px", borderRadius: "6px", border: "1px solid #ccc" }}
+                      >
+                        {ESTADOS.map((estado) => (
+                          <option key={estado} value={estado}>
+                            {estado}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                {selected === order.id && (
+                  <tr>
+                    <td colSpan={5}>
+                      <div style={{ background: "#fafafa", padding: "16px", borderRadius: "8px" }}>
+                        <h4>Ítems</h4>
+                        <ul style={{ paddingLeft: "20px" }}>
+                          {order.items.map((item) => (
+                            <li key={`${order.id}-${item.codigo}`}>
+                              {item.nombre} — {item.qty} × {formatMoney(item.price)}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
+            ))}
+            {!orders.length && (
+              <tr>
+                <td colSpan={5} style={{ textAlign: "center", padding: "24px" }}>
+                  No hay pedidos registrados.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
