@@ -3,8 +3,14 @@ import { buildReceiptHTML } from "../../src/utils/receipt";
 
 // Ensure receipt HTML contains expected fragments and formatted totals
 describe("buildReceiptHTML", () => {
-  beforeEach(() => vi.useFakeTimers(() => new Date(2025, 10, 15).getTime()));
-  afterEach(() => vi.useRealTimers());
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2025, 10, 15));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it("includes product names, totals and email when provided", () => {
     const payload = {

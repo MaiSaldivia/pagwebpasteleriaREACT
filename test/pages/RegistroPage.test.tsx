@@ -8,12 +8,17 @@ vi.mock("../../src/context/AppContext", () => ({
   useAppContext: () => ({ registerCustomer: mockRegister })
 }));
 
+import { MemoryRouter } from "react-router-dom";
 import { RegistroPage } from "../../src/pages/RegistroPage";
 
 // Ensure region select populates comuna options and form validation blocks submission when missing fields
 describe("RegistroPage", () => {
   it("populates comuna select when region chosen and blocks submit on invalid data", () => {
-    render(<RegistroPage />);
+    render(
+      <MemoryRouter>
+        <RegistroPage />
+      </MemoryRouter>
+    );
     const region = screen.getByLabelText(/Región/i);
     // Choose a known region that exists in REGIONS
     fireEvent.change(region, { target: { value: "Metropolitana" } });

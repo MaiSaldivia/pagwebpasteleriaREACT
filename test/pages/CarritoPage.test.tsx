@@ -29,12 +29,17 @@ vi.mock("../../src/context/AppContext", () => ({
   })
 }));
 
+import { MemoryRouter } from "react-router-dom";
 import { CarritoPage } from "../../src/pages/CarritoPage";
 
 // Verify checkout triggers openReceiptWindow, product stock update and clearCart
 describe("CarritoPage checkout flow", () => {
   it("opens receipt, updates product stock and clears cart on checkout", () => {
-    render(<CarritoPage />);
+    render(
+      <MemoryRouter>
+        <CarritoPage />
+      </MemoryRouter>
+    );
     const btn = screen.getByRole("button", { name: /Finalizar compra/i });
     fireEvent.click(btn);
     expect(mockOpenReceipt).toHaveBeenCalled();

@@ -7,7 +7,9 @@ describe("formatMoney", () => {
     const s = formatMoney(45000);
     // Contains digits
     expect(s).toMatch(/\d/);
-    // No fractional cents (no decimal separator followed by digits)
-    expect(/\.\d{1,}/.test(s)).toBe(false);
+    // No fractional cents: disallow a decimal separator followed by 1-2 digits
+    // that are then followed only by non-digits until the end (this avoids
+    // matching thousands separators like "45.000" which have 3-digit groups).
+    expect(/[.,]\d{1,2}(?=\D*$)/.test(s)).toBe(false);
   });
 });

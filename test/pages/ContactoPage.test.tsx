@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 import { ContactoPage } from "../../src/pages/ContactoPage";
@@ -13,23 +14,29 @@ describe("ContactoPage", () => {
     render(<ContactoPage />);
     const nombre = screen.getByLabelText(/Tu nombre/i);
     const correo = screen.getByLabelText(/Tu correo/i);
-    const mensaje = screen.getByLabelText(/Mensaje/i);
+    const mensaje = screen.getByLabelText(/Mensaje/i, { selector: 'textarea' });
     const btn = screen.getByRole("button", { name: /Enviar mensaje/i });
 
     // submit empty -> error flash
-    fireEvent.click(btn);
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(screen.getByText(/Revisa los campos marcados/i)).toBeDefined();
 
-    // Fill valid data
-    fireEvent.change(nombre, { target: { value: "Test" } });
-    fireEvent.change(correo, { target: { value: "user@gmail.com" } });
-    fireEvent.change(mensaje, { target: { value: "Hola" } });
-    fireEvent.click(btn);
+    // Fill valid data and submit inside act to ensure state updates are flushed
+    act(() => {
+      fireEvent.change(nombre, { target: { value: "Test" } });
+      fireEvent.change(correo, { target: { value: "user@gmail.com" } });
+      fireEvent.change(mensaje, { target: { value: "Hola" } });
+      fireEvent.click(btn);
+    });
 
     // success flash appears
     expect(screen.getByText(/Tu mensaje fue enviado con éxito/i)).toBeDefined();
 
-    // Advance timers to hide flash
-    vi.advanceTimersByTime(5000);
+    // Advance timers to hide flash inside act
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
   });
 });
