@@ -26,4 +26,13 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npx vitest run --reporter verbose --environment jsdom
+        run: |
+          # Ejecuta Vitest, captura toda la salida en vitest.log y falla si el comando falla
+          npx vitest run --reporter verbose --environment jsdom 2>&1 | tee vitest.log || true
+          cat vitest.log
+
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-logs
+          path: vitest.log
