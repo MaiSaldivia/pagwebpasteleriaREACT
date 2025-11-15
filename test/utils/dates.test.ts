@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { parseLocalDate, computeAge, isBirthdayToday } from "../../src/utils/dates";
 
-// Test parseLocalDate, computeAge and isBirthdayToday with controlled time
+// Pruebas de parseLocalDate, computeAge e isBirthdayToday con tiempo controlado
 describe("dates utilities", () => {
   beforeEach(() => {
     vi.useFakeTimers();

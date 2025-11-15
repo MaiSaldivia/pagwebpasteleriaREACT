@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import * as storage from "../../src/utils/storage";
 
-// Mock localStorage to avoid touching real storage
+// Simular localStorage para evitar tocar el almacenamiento real
 describe("storage helpers (readJSON/writeJSON/removeKey)", () => {
   const fakeStore: Record<string, string> = {};
   const mockLS = {

@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-// Mock AppContext registerCustomer to avoid real changes
+// Simular `AppContext.registerCustomer` para evitar cambios reales
 const mockRegister = vi.fn(() => ({ ok: true }));
 vi.mock("../../src/context/AppContext", () => ({
   useAppContext: () => ({ registerCustomer: mockRegister })
@@ -11,7 +11,7 @@ vi.mock("../../src/context/AppContext", () => ({
 import { MemoryRouter } from "react-router-dom";
 import { RegistroPage } from "../../src/pages/RegistroPage";
 
-// Ensure region select populates comuna options and form validation blocks submission when missing fields
+// Comprueba que el select de región pobla las comunas y que la validación evita el envío con campos faltantes
 describe("RegistroPage", () => {
   it("populates comuna select when region chosen and blocks submit on invalid data", () => {
     render(

@@ -2,18 +2,18 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-// Mock the AppContext hook so we can assert addToCart is called
+// Simular el hook `useAppContext` para poder afirmar que `addToCart` es llamado
 const mockAdd = vi.fn();
 vi.mock("../../src/context/AppContext", () => ({
   useAppContext: () => ({ addToCart: mockAdd })
 }));
 
-// Mock react-router-dom Link to avoid importing router internals
+// Simular `Link` de `react-router-dom` para evitar importar internals del router
 vi.mock("react-router-dom", () => ({
   Link: ({ children, to }: any) => {
     return (
       // eslint-disable-next-line react/jsx-no-bind
-      // simple anchor substitute
+      // sustituto simple de un anchor
       <a href={to}>{children}</a>
     );
   }
@@ -21,7 +21,7 @@ vi.mock("react-router-dom", () => ({
 
 import { ProductCard } from "../../src/components/products/ProductCard";
 
-// Verifies ProductCard renders product info and triggers addToCart
+// Verifica que `ProductCard` renderiza la información del producto y dispara `addToCart`
 describe("ProductCard component", () => {
   it("renders name, price and calls addToCart on button click", () => {
     const product = {

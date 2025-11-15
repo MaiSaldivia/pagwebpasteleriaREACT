@@ -2,13 +2,13 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-// Mock useAppContext so upsertProduct is observed
+// Simular `useAppContext` para observar llamadas a `upsertProduct`
 const mockUpsert = vi.fn();
 vi.mock("../../src/context/AppContext", () => ({ useAppContext: () => ({ products: [], upsertProduct: mockUpsert }) }));
 
 import { ProductCreateForm } from "../../src/components/admin/ProductCreateForm";
 
-// Ensure the form validates price minimum and does not call upsertProduct on invalid
+// Comprueba que el formulario valida el precio mínimo y no llama a `upsertProduct` cuando es inválido
 describe("ProductCreateForm", () => {
   it("shows error when precio is below minimum and does not call upsertProduct", () => {
     render(<ProductCreateForm />);

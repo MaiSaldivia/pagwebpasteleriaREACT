@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-// Mock useAppContext to provide cart state and spies for actions
+// Simular `useAppContext` para proporcionar el estado del carrito y espiar acciones
 const mockOpenReceipt = vi.fn();
 const mockUpdateCustomer = vi.fn();
 const mockClearCart = vi.fn();
@@ -32,7 +32,7 @@ vi.mock("../../src/context/AppContext", () => ({
 import { MemoryRouter } from "react-router-dom";
 import { CarritoPage } from "../../src/pages/CarritoPage";
 
-// Verify checkout triggers openReceiptWindow, product stock update and clearCart
+// Verifica que el checkout dispara `openReceiptWindow`, actualiza stock del producto y limpia el carrito
 describe("CarritoPage checkout flow", () => {
   it("opens receipt, updates product stock and clears cart on checkout", () => {
     render(

@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 import { ContactoPage } from "../../src/pages/ContactoPage";
 
-// Test contact form validation and success flash using fake timers
+// Prueba la validación del formulario de contacto y el flash de éxito usando temporizadores falsos
 describe("ContactoPage", () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { cleanRun, isRunValid } from "../../src/utils/validators";
 
-// Test RUN cleaning and validation logic
+// Pruebas de limpieza y validación del RUN
 describe("validators.cleanRun / isRunValid", () => {
   it("cleanRun removes dots and lowercases K to uppercase", () => {
     expect(cleanRun("12.345.678-k")).toBe("12345678K");

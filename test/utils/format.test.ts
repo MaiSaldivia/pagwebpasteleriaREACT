@@ -1,7 +1,7 @@
 import { it, expect, describe } from "vitest";
 import { formatMoney } from "../../src/utils/format";
 
-// Verifies currency formatting behavior (environment-agnostic)
+// Verifica el comportamiento de formateo de moneda (independiente del entorno)
 describe("formatMoney", () => {
   it("formats numbers as currency-like string without decimal cents", () => {
     const s = formatMoney(45000);

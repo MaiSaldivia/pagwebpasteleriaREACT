@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { buildReceiptHTML } from "../../src/utils/receipt";
 
-// Ensure receipt HTML contains expected fragments and formatted totals
+// Verifica que el HTML del recibo contenga fragmentos esperados y totales formateados
 describe("buildReceiptHTML", () => {
   beforeEach(() => {
     vi.useFakeTimers();
