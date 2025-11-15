@@ -12,7 +12,8 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [18.x]
+        # Use Node 20 to satisfy package engine requirements (vitest, vite, jsdom)
+        node-version: [20.x]
 
     steps:
       - name: Checkout repository
